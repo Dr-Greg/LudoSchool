@@ -20,7 +20,6 @@ export class WelcomePage implements OnInit {
 	}
 
 	navTabs() {
-		console.log('click');
 		this.navCtrl.navigateRoot(['tabs', 'home']);
 	}
 }

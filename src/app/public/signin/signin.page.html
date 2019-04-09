@@ -12,23 +12,23 @@
 		<ion-card-header>
 			<ion-img src="/assets/img/signin-img.svg"></ion-img>
 			<ion-item>
-				<ion-label position="floating" placeholder="E-mail" type="text">Entrez votre e-mail</ion-label>
-				<ion-input [(ngModel)]="lastName"></ion-input>
+				<ion-label position="floating" placeholder="E-mail">Entrez votre e-mail</ion-label>
+				<ion-input [(ngModel)]="email" type="text"></ion-input>
 			</ion-item>
 			<ion-item>
-				<ion-label position="floating" placeholder="Mot de passe" type="password">Entrez votre mot de passe</ion-label>
-				<ion-input [(ngModel)]="firstName"></ion-input>
+				<ion-label position="floating" placeholder="Mot de passe">Entrez votre mot de passe</ion-label>
+				<ion-input [(ngModel)]="password" type="password"></ion-input>
 			</ion-item>
 		</ion-card-header>
 	</ion-card>
 
 	<ion-card>
 		<ion-card-header>
-			<a href="https://policies.google.com/terms?hl=fr">Réinitialiser mon mot de passe</a>
+			<a href="https://google.com">Réinitialiser mon mot de passe</a>
 		</ion-card-header>
 	</ion-card>
 
 	<div class="button-block-container">
-		<ion-button color="primary" size="large" expand="block" fill="solid">Se connecter</ion-button>
+		<ion-button color="primary" size="large" expand="block" fill="solid" (click)="signIn()">Se connecter</ion-button>
 	</div>
 </ion-content>
