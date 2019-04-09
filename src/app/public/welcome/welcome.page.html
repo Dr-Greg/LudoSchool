@@ -1,5 +1,5 @@
-<ion-content id="welcome-container">
-	<ion-card>
+<ion-content>
+	<ion-card id="welcome-container-card">
 		<ion-card-header>
 			<ion-img src="/assets/img/welcome-img.svg"></ion-img>
 			<div id="welcome-container-title" align="center">
@@ -10,10 +10,10 @@
 					<ion-card-subtitle>Transformez votre carrière en obtenant un diplôme en ligne.</ion-card-subtitle>
 				</div>
 			</div>
+			<div class="button-block-container">
+				<ion-button color="primary" size="large" expand="block" fill="solid" (click)="navSignIn()">Se connecter</ion-button>
+				<ion-button color="primary" size="large" expand="block" fill="outline" (click)="navSignUp()">S'inscrire</ion-button>
+			</div>
 		</ion-card-header>
 	</ion-card>
-	<div class="button-block-container">
-		<ion-button color="primary" size="large" expand="block" fill="solid" (click)="navSignIn()">Se connecter</ion-button>
-		<ion-button color="primary" size="large" expand="block" fill="outline" (click)="navSignUp()">S'inscrire</ion-button>
-	</div>
 </ion-content>
