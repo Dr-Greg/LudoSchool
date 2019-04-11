@@ -7,71 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchPage implements OnInit {
 	check = false;
-
-	//#region object
-	courses = [
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		},
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		},
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		},
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		},
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		},
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		},
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		},
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		},
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		},
-		{
-			url: 'https://google.com',
-			image: 'https://oc-course.imgix.net/courses/4192086/4192086_teaser_picture_1522246488.jpg',
-			titre: 'cours zbbi',
-			temps: 'moyen'
-		}
-	];
-	//#endregion
+	courses = [];
 
 	constructor() {}
 

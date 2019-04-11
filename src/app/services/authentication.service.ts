@@ -2,6 +2,11 @@ import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+
+const signInUrl: string = 'https://solidaire.berwick.fr/api/auth/login';
+const signUpUrl: string = 'https://solidaire.berwick.fr/api/auth/register';
 
 @Injectable({
 	providedIn: 'root'
@@ -9,20 +14,42 @@ import { Storage } from '@ionic/storage';
 export class AuthenticationService {
 	authenticationState = new BehaviorSubject(false);
 
-	constructor(private storage: Storage, private platform: Platform) {
+	constructor(private storage: Storage, private platform: Platform, private http: HttpClient) {
 		this.platform.ready().then(() => {
 			this.checkToken();
 		});
 	}
 
-	async login() {
-		return this.storage.set('token', 'Bearer 1234').then(() => {
-			this.authenticationState.next(true);
+	signIn(username: string, password: string) {
+		return new Promise((resolve, reject) => {
+			this.http.post(signInUrl, JSON.stringify({ username, password })).subscribe(
+				(res) => {
+					resolve(res);
+				},
+				(err) => {
+					console.log(err);
+					reject(err);
+				}
+			);
+		});
+	}
+
+	signUp(email: string, first_name: string, last_name: string, password: string, username: string) {
+		return new Promise((resolve, reject) => {
+			this.http.post(signUpUrl, JSON.stringify({ email, first_name, last_name, password, username })).subscribe(
+				(res) => {
+					resolve(res);
+				},
+				(err) => {
+					console.log(err);
+					reject(err);
+				}
+			);
 		});
 	}
 
 	async logout() {
-		return this.storage.remove('token').then(() => {
+		return this.storage.remove('a').then(() => {
 			this.authenticationState.next(false);
 		});
 	}

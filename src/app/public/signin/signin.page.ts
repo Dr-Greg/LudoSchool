@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -11,7 +12,12 @@ export class SigninPage implements OnInit {
 	email = '';
 	password = '';
 
-	constructor(private storage: Storage, private loadingController: LoadingController, private toasController: ToastController) {}
+	constructor(
+		private authService: AuthenticationService,
+		private storage: Storage,
+		private loadingController: LoadingController,
+		private toastController: ToastController
+	) {}
 
 	ngOnInit() {}
 
@@ -20,16 +26,31 @@ export class SigninPage implements OnInit {
 			const loading = await this.loadingController.create({
 				message: 'Chargement...'
 			});
-
 			await loading.present();
-			// API CALL
-
-			setTimeout(() => {
-				loading.dismiss();
-			}, 5000);
+			this.authService
+				.signIn(this.email, this.password)
+				.then((res) => {
+					if (res) {
+						loading.dismiss();
+						this.storage.set('token', res['data']['token']).then(() => {
+							this.storage.set('user_data', JSON.stringify(res['data'])).then(() => {
+								this.authService.checkToken();
+							});
+						});
+					}
+				})
+				.catch(async (err) => {
+					loading.dismiss();
+					const toast = await this.toastController.create({
+						message: 'Vérifiez les champs de connexion',
+						showCloseButton: true,
+						closeButtonText: 'OK'
+					});
+					await toast.present();
+				});
 		} else {
-			const toast = await this.toasController.create({
-				message: 'Formulaire invalide.',
+			const toast = await this.toastController.create({
+				message: 'Vérifiez les champs de connexion',
 				showCloseButton: true,
 				closeButtonText: 'OK'
 			});
