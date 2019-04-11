@@ -4,4 +4,41 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content
+			pullingIcon="arrow-dropdown"
+			pullingText="Pull to refresh"
+			refreshingSpinner="circles"
+			refreshingText="Refreshing..."
+		>
+		</ion-refresher-content>
+	</ion-refresher>
+	<div *ngIf="courses.length !== null; else elseBlock">
+		<div class="course-miniature-container" *ngFor="let course of courses">
+			<div class="course-miniature-image-container">
+				<img src="{{ course.image }}" />
+			</div>
+			<div class="course-miniature-content-container">
+				<h1 class="course-miniature-content-title">{{ course.titre }}</h1>
+				<p class="course-miniature-content-duration">Temps: {{ course.temps }}</p>
+			</div>
+		</div>
+	</div>
+	<ng-template #elseBlock>
+		<ion-card id="welcome-container-card" style="margin-top: 30px;">
+			<ion-card-header>
+				<ion-img src="assets/img/no-courses.svg"></ion-img>
+				<h2 align="center">
+					Pas encore de formation ?<br />
+					Pas de souci !
+				</h2>
+				<div class="button-block-container">
+					<ion-button color="primary" size="large" expand="block" fill="solid" (click)="browsCourses()">
+						Découvrir nos formations
+					</ion-button>
+				</div>
+			</ion-card-header>
+		</ion-card>
+	</ng-template>
+</ion-content>

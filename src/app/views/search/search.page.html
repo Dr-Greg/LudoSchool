@@ -2,6 +2,47 @@
 	<ion-toolbar>
 		<ion-title>Découvrir</ion-title>
 	</ion-toolbar>
+	<ion-searchbar
+		type="search"
+		autocomplete="on"
+		animated
+		placeholder="Recherche"
+		showCancelButton
+		cancelButtonText="Annuler"
+		style="border-bottom: 0.55px solid var(--ion-toolbar-border-color,var(--ion-border-color,var(--ion-color-step-150,rgba(0,0,0,0.2)))); padding: 0 12px;"
+	></ion-searchbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content
+			pullingIcon="arrow-dropdown"
+			pullingText="Pull to refresh"
+			refreshingSpinner="circles"
+			refreshingText="Refreshing..."
+		>
+		</ion-refresher-content>
+	</ion-refresher>
+	<div *ngIf="check == true; else elseBlock">
+		<div class="course-miniature-container" *ngFor="let course of courses">
+			<div class="course-miniature-image-container">
+				<img src="{{ course.image }}" />
+			</div>
+			<div class="course-miniature-content-container">
+				<h1 class="course-miniature-content-title">{{ course.titre }}</h1>
+				<p class="course-miniature-content-duration">Temps: {{ course.temps }}</p>
+			</div>
+		</div>
+	</div>
+	<ng-template #elseBlock>
+		<ion-card id="welcome-container-card" style="margin-top: 30px;">
+			<ion-card-header>
+				<ion-img src="assets/img/no-courses.svg"></ion-img>
+				<h2 align="center">
+					Désolé, nous n'avons pas de<br />
+					formations disponible.
+				</h2>
+			</ion-card-header>
+		</ion-card>
+	</ng-template>
+</ion-content>

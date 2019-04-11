@@ -10,8 +10,8 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
-ion-tab-bar {
-	margin: 10px;
+* {
+	font-family: Barlow Semi Condensed, Arial Narrow, sans-serif;
 }
 
 .button-block-container {
@@ -20,4 +20,26 @@ ion-tab-bar {
 	:last-child {
 		margin-top: 20px;
 	}
+}
+
+.course-miniature-container {
+	display: flex;
+	margin: 15px 5px;
+}
+
+.course-miniature-image-container {
+	width: 50%;
+}
+
+.course-miniature-content-container {
+	margin-left: 5px;
+}
+
+.course-miniature-content-title {
+	margin-top: 0 !important;
+}
+
+.course-miniature-content-duration {
+	margin-top: 55px !important;
+	margin-bottom: 0 !important;
 }
