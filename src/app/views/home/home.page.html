@@ -14,7 +14,7 @@
 		>
 		</ion-refresher-content>
 	</ion-refresher>
-	<div *ngIf="courses.length !== null; else elseBlock">
+	<div *ngIf="coursesNotNull(); else elseBlock">
 		<div class="course-miniature-container" *ngFor="let course of courses">
 			<div class="course-miniature-image-container">
 				<img src="{{ course.image }}" />

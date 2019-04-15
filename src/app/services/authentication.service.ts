@@ -2,7 +2,6 @@ import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage';
-import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 const signInUrl: string = 'https://solidaire.berwick.fr/api/auth/login';

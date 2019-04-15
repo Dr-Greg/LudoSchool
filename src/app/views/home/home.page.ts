@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Platform } from '@ionic/angular';
+import { CoursesService } from 'src/app/services/courses.service';
 
 @Component({
 	selector: 'app-home',
@@ -14,7 +15,13 @@ export class HomePage implements OnInit {
 	synchronized = false;
 	courses = [];
 
-	constructor(private navCtrl: NavController, private storage: Storage, private platform: Platform, private alertCtrl: AlertController) {}
+	constructor(
+		private navCtrl: NavController,
+		private storage: Storage,
+		private platform: Platform,
+		private alertCtrl: AlertController,
+		private coursesService: CoursesService
+	) {}
 
 	ngOnInit() {
 		this.platform.ready().then(() => {
@@ -52,7 +59,14 @@ export class HomePage implements OnInit {
 					text: 'Oui',
 					handler: () => {
 						this.storage.set('wifi_on_off', 'on');
-						// CALL API FOR FORMATIONS SYNC
+						this.coursesService
+							.loadFollowFormations()
+							.then((res) => {
+								if (res) {
+									console.log(res);
+								}
+							})
+							.catch(async (err) => {});
 						this.synchronized = true;
 					}
 				}
@@ -67,8 +81,33 @@ export class HomePage implements OnInit {
 	}
 
 	doRefresh(event) {
-		setTimeout(() => {
-			event.target.complete();
-		}, 2000);
+		this.courses = null;
+		this.storage.get('wifi_on_off').then((wifiOn) => {
+			if (wifiOn === 'on') {
+				this.coursesService
+					.loadFollowFormations()
+					.then((res) => {
+						if (res) {
+							console.log(res);
+							event.target.complete();
+						}
+					})
+					.catch(async (err) => {
+						event.target.complete();
+					});
+			} else {
+				this.storage.get('follow_formations').then((followFormations) => {
+					if (followFormations) {
+						console.log(followFormations);
+						this.courses = JSON.parse(followFormations);
+					}
+					event.target.complete();
+				});
+			}
+		});
+	}
+
+	coursesNotNull(): boolean {
+		return this.courses !== null && this.courses.length > 0;
 	}
 }

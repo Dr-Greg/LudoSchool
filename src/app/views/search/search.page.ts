@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { CoursesService } from 'src/app/services/courses.service';
 
 @Component({
 	selector: 'app-search',
@@ -7,19 +9,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchPage implements OnInit {
 	check = false;
-	courses = [];
+	formations = [];
 
-	constructor() {}
+	constructor(private storage: Storage, private coursesService: CoursesService) {}
 
-	ngOnInit() {
-		// CALL API
-	}
+	ngOnInit() {}
 
 	doRefresh(event) {
-		setTimeout(() => {
-			console.log('ok');
-			this.check = true;
-			event.target.complete();
-		}, 2000);
+		this.formations = null;
+		this.storage.get('wifi_on_off').then((wifiOn) => {
+			if (wifiOn === 'on') {
+				this.coursesService
+					.loadFormations()
+					.then((res) => {
+						if (res) {
+							console.log(res);
+							event.target.complete();
+						}
+					})
+					.catch(async (err) => {
+						event.target.complete();
+					});
+			} else {
+				this.storage.get('formations').then((formations) => {
+					if (formations) {
+						console.log(formations);
+						this.formations = JSON.parse(formations);
+					}
+					event.target.complete();
+				});
+			}
+		});
 	}
 }
