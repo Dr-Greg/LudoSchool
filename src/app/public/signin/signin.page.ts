@@ -32,7 +32,9 @@ export class SigninPage implements OnInit {
 				.then((res) => {
 					if (res) {
 						loading.dismiss();
+						res['data']['coop_id'] = 27;
 						this.storage.set('token', res['data']['token']).then(() => {
+							localStorage.setItem('token', res['data']['token']);
 							this.storage.set('user_data', JSON.stringify(res['data'])).then(() => {
 								this.authService.checkToken();
 							});
@@ -44,7 +46,8 @@ export class SigninPage implements OnInit {
 					const toast = await this.toastController.create({
 						message: 'Vérifiez les champs de connexion',
 						showCloseButton: true,
-						closeButtonText: 'OK'
+						closeButtonText: 'OK',
+						duration: 3000
 					});
 					await toast.present();
 				});
@@ -52,7 +55,8 @@ export class SigninPage implements OnInit {
 			const toast = await this.toastController.create({
 				message: 'Vérifiez les champs de connexion',
 				showCloseButton: true,
-				closeButtonText: 'OK'
+				closeButtonText: 'OK',
+				duration: 3000
 			});
 			await toast.present();
 		}

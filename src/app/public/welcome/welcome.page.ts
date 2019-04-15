@@ -22,7 +22,10 @@ export class WelcomePage implements OnInit {
 		this.platform.ready().then(() => {
 			this.authService.authenticationState.subscribe((signin) => {
 				if (signin) {
-					this.router.navigate(['tabs', 'home']);
+					this.storage.get('token').then((token) => {
+						localStorage.setItem('token', token);
+						this.router.navigate(['tabs', 'home']);
+					});
 				} else {
 					this.router.navigate(['welcome']);
 				}

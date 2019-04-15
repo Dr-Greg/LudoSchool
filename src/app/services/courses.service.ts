@@ -2,8 +2,14 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 
-const coursesUrl = 'http://';
-const formationsUrl = 'http://';
+/* DISCOVERS FORMATIONS VIEW */
+const formationsUrl = 'https://solidaire.berwick.fr/api/formations';
+const searchFormationsUrl = 'https://solidaire.berwick.fr/api/formations/search	';
+const followFormationUrl = 'https://solidaire.berwick.fr/api/formations/follow';
+
+/* FORMATIONS VIEW */
+const followedFormationsUrl = 'https://solidaire.berwick.fr/api/formations/followed';
+const formationDetailsUrl = 'https://solidaire.berwick.fr/api/formation';
 
 @Injectable({
 	providedIn: 'root'
@@ -13,7 +19,7 @@ export class CoursesService {
 
 	loadFollowFormations() {
 		return new Promise((resolve, reject) => {
-			this.http.post(coursesUrl, {}).subscribe(
+			this.http.post(followedFormationsUrl, {}).subscribe(
 				(res) => {
 					resolve(res);
 				},
@@ -25,9 +31,23 @@ export class CoursesService {
 		});
 	}
 
-	loadFormations() {
+	loadFormations(pagination_start: number, interval: number, cooperative_id: number) {
 		return new Promise((resolve, reject) => {
-			this.http.post(formationsUrl, {}).subscribe(
+			this.http.post(formationsUrl, { interval, pagination_start, cooperative_id }).subscribe(
+				(res) => {
+					resolve(res);
+				},
+				(err) => {
+					console.log(err);
+					reject(err);
+				}
+			);
+		});
+	}
+
+	loadFormationsWith(pattern: string, pagination_start: number, interval: number, cooperative_id: number) {
+		return new Promise((resolve, reject) => {
+			this.http.post(searchFormationsUrl, { interval, pagination_start, cooperative_id, pattern }).subscribe(
 				(res) => {
 					resolve(res);
 				},

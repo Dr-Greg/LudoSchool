@@ -49,7 +49,8 @@ export class SignupPage implements OnInit {
 					const toast = await this.toastController.create({
 						message: 'Vérifiez les champs de connexion',
 						showCloseButton: true,
-						closeButtonText: 'OK'
+						closeButtonText: 'OK',
+						duration: 3000
 					});
 					await toast.present();
 				});
@@ -57,7 +58,8 @@ export class SignupPage implements OnInit {
 			const toast = await this.toastController.create({
 				message: 'Vérifiez les champs de connexion',
 				showCloseButton: true,
-				closeButtonText: 'OK'
+				closeButtonText: 'OK',
+				duration: 3000
 			});
 			await toast.present();
 		}

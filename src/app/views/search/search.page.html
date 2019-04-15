@@ -3,12 +3,14 @@
 		<ion-title>Découvrir</ion-title>
 	</ion-toolbar>
 	<ion-searchbar
+		*ngIf="wifiOn"
+		[(ngModel)]="searchInput"
+		(ionChange)="onSearchInputEnter($event)"
+		(ionClear)="onSearchInputClear($event)"
 		type="search"
 		autocomplete="on"
 		animated
 		placeholder="Recherche"
-		showCancelButton
-		cancelButtonText="Annuler"
 		style="border-bottom: 0.55px solid var(--ion-toolbar-border-color,var(--ion-border-color,var(--ion-color-step-150,rgba(0,0,0,0.2)))); padding: 0 12px;"
 	></ion-searchbar>
 </ion-header>
@@ -23,15 +25,19 @@
 		>
 		</ion-refresher-content>
 	</ion-refresher>
-	<div *ngIf="check == true; else elseBlock">
-		<div class="course-miniature-container" *ngFor="let course of courses">
+	<div *ngIf="formationsNotNull(); else elseBlock">
+		<div class="course-miniature-container" *ngFor="let formation of formations; let i">
+			<ion-button color="primary" size="large" expand="block" fill="outline" (click)="showFormationDetail(i)">Voir</ion-button>
+			<!--BUTTON onClick showFormationDetail(i)-->
 			<div class="course-miniature-image-container">
-				<img src="{{ course.image }}" />
+				<img src="" />
+				<!-- {{ formation.image }}-->
 			</div>
 			<div class="course-miniature-content-container">
-				<h1 class="course-miniature-content-title">{{ course.titre }}</h1>
-				<p class="course-miniature-content-duration">Temps: {{ course.temps }}</p>
+				<h1 class="course-miniature-content-title">{{ formation.name }}</h1>
+				<p class="course-miniature-content-duration">Temps: {{ formation.estimated_duration }}</p>
 			</div>
+			<!--BUTTON-->
 		</div>
 	</div>
 	<ng-template #elseBlock>
@@ -41,6 +47,10 @@
 				<h2 align="center">
 					Désolé, nous n'avons pas de<br />
 					formations disponible.
+					<div *ngIf="!wifiOn">
+						<br />
+						Réessayez en wifi.
+					</div>
 				</h2>
 			</ion-card-header>
 		</ion-card>

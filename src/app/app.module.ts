@@ -15,10 +15,11 @@ import { BuymodalPage } from './views/modals/buymodal/buymodal.page';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { FormationmodalPage } from './views/modals/formationdetail/formationmodal.page';
 
 @NgModule({
-	declarations: [AppComponent, SellmodalPage, BuymodalPage],
-	entryComponents: [SellmodalPage, BuymodalPage],
+	declarations: [AppComponent, SellmodalPage, BuymodalPage, FormationmodalPage],
+	entryComponents: [SellmodalPage, BuymodalPage, FormationmodalPage],
 	imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicStorageModule.forRoot(), HttpClientModule],
 	providers: [
 		StatusBar,
