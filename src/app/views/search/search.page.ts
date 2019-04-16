@@ -41,6 +41,7 @@ export class SearchPage implements OnInit {
 					this.storage.get('formations').then((formations) => {
 						if (formations) {
 							this.formations = JSON.parse(formations);
+							console.log(formations);
 						}
 					});
 				}

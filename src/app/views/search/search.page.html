@@ -27,17 +27,20 @@
 	</ion-refresher>
 	<div *ngIf="formationsNotNull(); else elseBlock">
 		<div class="course-miniature-container" *ngFor="let formation of formations; let i">
-			<ion-button color="primary" size="large" expand="block" fill="outline" (click)="showFormationDetail(i)">Voir</ion-button>
-			<!--BUTTON onClick showFormationDetail(i)-->
-			<div class="course-miniature-image-container">
-				<img src="" />
-				<!-- {{ formation.image }}-->
-			</div>
-			<div class="course-miniature-content-container">
-				<h1 class="course-miniature-content-title">{{ formation.name }}</h1>
-				<p class="course-miniature-content-duration">Temps: {{ formation.estimated_duration }}</p>
-			</div>
-			<!--BUTTON-->
+			<button class="course-miniature-button" (click)="showFormationDetail(i)">
+				<div class="course-miniature-image-container">
+					<img
+						style="border-radius: 5px"
+						src="https://oc-course.imgix.net/courses/4872916/4872916_teaser_picture_1555329059.jpg%3Fr%3Dpad?auto=compress,format&q=80"
+					/>
+					<!-- {{ formation.image }}-->
+				</div>
+				<div class="course-miniature-content-container">
+					<h1 class="course-miniature-content-title">{{ formation.name }}</h1>
+					<p class="course-miniature-content-duration"><ion-icon name="time" slot="start"></ion-icon>{{ formation.estimated_duration }}h</p>
+					<p class="course-miniature-content-duration"><ion-icon name="stats" slot="start"></ion-icon>{{ formation.level }}</p>
+				</div>
+			</button>
 		</div>
 	</div>
 	<ng-template #elseBlock>

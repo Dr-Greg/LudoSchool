@@ -16,7 +16,6 @@
 
 .button-block-container {
 	margin: 30px;
-
 	:last-child {
 		margin-top: 20px;
 	}
@@ -25,21 +24,36 @@
 .course-miniature-container {
 	display: flex;
 	margin: 15px 5px;
+	height: 130px;
+}
+
+.course-miniature-button {
+	background-color: white;
+	width: 100%;
+	display: flex;
+	border: 1px;
+	border-radius: 5px;
+	border-color: white;
+	border-style: solid;
+	box-shadow: 0px 2px 7px #80808042;
 }
 
 .course-miniature-image-container {
+	height: 100%;
 	width: 50%;
+	border-radius: 5px;
 }
 
 .course-miniature-content-container {
+	width: 50%;
 	margin-left: 5px;
 }
 
 .course-miniature-content-title {
+	font-size: 16px;
 	margin-top: 0 !important;
 }
 
 .course-miniature-content-duration {
-	margin-top: 55px !important;
 	margin-bottom: 0 !important;
 }
