@@ -58,4 +58,32 @@ export class CoursesService {
 			);
 		});
 	}
+
+	followFormations(formation_id: number, cooperative_id: number) {
+		return new Promise((resolve, reject) => {
+			this.http.post(followFormationUrl, { formation_id, cooperative_id }).subscribe(
+				(res) => {
+					resolve(res);
+				},
+				(err) => {
+					console.log(err);
+					reject(err);
+				}
+			);
+		});
+	}
+
+	formationDetails(formation_id: number) {
+		return new Promise((resolve, reject) => {
+			this.http.post(formationDetailsUrl, { formation_id }).subscribe(
+				(res) => {
+					resolve(res);
+				},
+				(err) => {
+					console.log(err);
+					reject(err);
+				}
+			);
+		});
+	}
 }

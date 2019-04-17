@@ -7,6 +7,19 @@
 		</ion-buttons>
 		<ion-title>Formation detail</ion-title>
 	</ion-toolbar>
+	<style>
+		#header_image {
+			width: 100%;
+			height: 30%;
+		}
+	</style>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+	<div id="header_image">
+		<img style="width: 100%; height: 100%;" src="{{ courseShort.local_uri }}" />
+	</div>
+	<br />
+	<h1 align="center" class="course-miniature-content-title">{{ courseShort.name }}</h1>
+	<!--<video controls muted="false"><source src="{{ courseLong.link }}" type="video/mp4" /></video>-->
+</ion-content>
