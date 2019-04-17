@@ -21,7 +21,9 @@ export class SearchPage implements OnInit {
 
 	ngOnInit() {
 		this.storage.get('user_data').then((userData) => {
+			userData = JSON.parse(userData);
 			this.coopId = userData['coop_id'];
+			console.log(this.coopId);
 			this.storage.get('wifi_on_off').then((wifiOn) => {
 				this.wifiOn = wifiOn === 'on' ? true : false;
 
