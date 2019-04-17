@@ -26,14 +26,10 @@
 		</ion-refresher-content>
 	</ion-refresher>
 	<div *ngIf="formationsNotNull(); else elseBlock">
-		<div class="course-miniature-container" *ngFor="let formation of formations; let i">
-			<button class="course-miniature-button" (click)="showFormationDetail(i)">
+		<div class="course-miniature-container" *ngFor="let formation of formations; let i = index">
+			<button class="course-miniature-button" (click)="followFormation(i)">
 				<div class="course-miniature-image-container">
-					<img
-						style="border-radius: 5px"
-						src="https://oc-course.imgix.net/courses/4872916/4872916_teaser_picture_1555329059.jpg%3Fr%3Dpad?auto=compress,format&q=80"
-					/>
-					<!-- {{ formation.image }}-->
+					<img style="border-radius: 5px" src="{{ formation.local_uri }}" />
 				</div>
 				<div class="course-miniature-content-container">
 					<h1 class="course-miniature-content-title">{{ formation.name }}</h1>

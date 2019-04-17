@@ -1,8 +1,8 @@
-import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { CoursesService } from 'src/app/services/courses.service';
 import { FormationmodalPage } from '../modals/formationdetail/formationmodal.page';
+import { ModalController } from '@ionic/angular';
 
 @Component({
 	selector: 'app-search',
@@ -114,18 +114,36 @@ export class SearchPage implements OnInit {
 		}
 	}
 
-	/*followFormation(index: number) {
-		this.storage.get('follow_formations').then((follow_formations) => {
-			follow_formations.push(this.formations[index]);
-			this.storage.set('follow_formations', JSON.stringify(follow_formations));
-			this.formations.slice(index, 1);
-		});
-	}*/
+	followFormation(index: number) {
+		if (!this.formations[index]['is_followed']) {
+			if (this.wifiOn) {
+				this.coursesService
+					.followFormations(this.formations[index].id, this.coopId)
+					.then((res) => {
+						this.storage.get('follow_formations').then((follow_formations) => {
+							if (follow_formations == null) {
+								follow_formations = [];
+							} else {
+								follow_formations = JSON.parse(follow_formations);
+							}
+							follow_formations.push(this.formations[index]);
+							console.log(follow_formations);
+							this.storage.set('follow_formations', JSON.stringify(follow_formations));
+							this.showFormationDetail(index);
+							this.formations[index]['is_followed'] = true;
+						});
+					})
+					.catch((err) => {});
+			}
+		} else {
+			this.showFormationDetail(index);
+		}
+	}
 
 	async showFormationDetail(index: number) {
 		const modal = await this.modalCtrl.create({
 			component: FormationmodalPage,
-			componentProps: this.formations[index]
+			componentProps: { courseShort: this.formations[index] }
 		});
 		return await modal.present();
 	}

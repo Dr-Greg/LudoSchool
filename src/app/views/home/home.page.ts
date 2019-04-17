@@ -1,5 +1,6 @@
+import { FormationmodalPage } from './../modals/formationdetail/formationmodal.page';
 import { NavController } from '@ionic/angular';
-import { TabsPage } from './../tabs/tabs.page';
+import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -20,7 +21,8 @@ export class HomePage implements OnInit {
 		private storage: Storage,
 		private platform: Platform,
 		private alertCtrl: AlertController,
-		private coursesService: CoursesService
+		private coursesService: CoursesService,
+		private modalCtrl: ModalController
 	) {}
 
 	ngOnInit() {
@@ -63,7 +65,7 @@ export class HomePage implements OnInit {
 							.loadFollowFormations()
 							.then((res) => {
 								if (res) {
-									console.log(res);
+									this.courses = res['data'];
 								}
 							})
 							.catch(async (err) => {});
@@ -81,14 +83,13 @@ export class HomePage implements OnInit {
 	}
 
 	doRefresh(event) {
-		this.courses = null;
 		this.storage.get('wifi_on_off').then((wifiOn) => {
 			if (wifiOn === 'on') {
 				this.coursesService
 					.loadFollowFormations()
 					.then((res) => {
 						if (res) {
-							console.log(res);
+							this.courses = res['data'];
 							event.target.complete();
 						}
 					})
@@ -98,13 +99,25 @@ export class HomePage implements OnInit {
 			} else {
 				this.storage.get('follow_formations').then((followFormations) => {
 					if (followFormations) {
-						console.log(followFormations);
-						this.courses = JSON.parse(followFormations);
+						followFormations = JSON.parse(followFormations);
+					} else {
+						followFormations = [];
+					}
+					if (followFormations) {
+						this.courses = followFormations;
 					}
 					event.target.complete();
 				});
 			}
 		});
+	}
+
+	async showFormationDetail(index: number) {
+		const modal = await this.modalCtrl.create({
+			component: FormationmodalPage,
+			componentProps: { courseShort: this.courses[index] }
+		});
+		return await modal.present();
 	}
 
 	coursesNotNull(): boolean {
