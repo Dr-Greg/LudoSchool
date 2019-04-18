@@ -10,11 +10,15 @@ import { Storage } from '@ionic/storage';
 })
 export class FormationmodalPage implements OnInit {
 	courseShort;
+	coopId: number;
 	courseLong;
 	wifiOn: boolean = false;
 
 	chapters = [];
-	chapterContent = {};
+	chapterContent = {
+		formation_id: 0,
+		id: 0
+	};
 
 	questionsList = [];
 	question;
@@ -26,31 +30,35 @@ export class FormationmodalPage implements OnInit {
 	constructor(private storage: Storage, private modalCtrl: ModalController, private coursesService: CoursesService) {}
 
 	ngOnInit() {
-		this.storage.get('wifi_on_off').then((wifiOn) => {
-			this.wifiOn = wifiOn === 'on' ? true : false;
+		this.storage.get('user_data').then((userData) => {
+			userData = JSON.parse(userData);
+			this.coopId = userData['coop_id'];
+			this.storage.get('wifi_on_off').then((wifiOn) => {
+				this.wifiOn = wifiOn === 'on' ? true : false;
 
-			if (wifiOn === 'on') {
-				this.coursesService
-					.formationDetails(this.courseShort['id'])
-					.then((res) => {
-						if (res) {
-							console.table(res['data']);
-							this.courseLong = res['data'];
-							if (this.courseLong.chapters.length > 0) {
-								this.chapters = this.courseLong['chapters'];
-								this.chapterContent = this.chapters[0];
+				if (wifiOn === 'on') {
+					this.coursesService
+						.formationDetails(this.courseShort['id'])
+						.then((res) => {
+							if (res) {
+								console.table(res['data']);
+								this.courseLong = res['data'];
+								if (this.courseLong.chapters.length > 0) {
+									this.chapters = this.courseLong['chapters'];
+									this.chapterContent = this.chapters[0];
+								}
 							}
+						})
+						.catch(async (err) => {});
+				} else {
+					this.storage.get('course_' + this.courseShort['id']).then((courseLong) => {
+						if (courseLong) {
+							this.courseLong = JSON.parse(courseLong);
+							console.log(courseLong);
 						}
-					})
-					.catch(async (err) => {});
-			} else {
-				this.storage.get('course_' + this.courseShort['id']).then((courseLong) => {
-					if (courseLong) {
-						this.courseLong = JSON.parse(courseLong);
-						console.log(courseLong);
-					}
-				});
-			}
+					});
+				}
+			});
 		});
 	}
 
@@ -80,8 +88,7 @@ export class FormationmodalPage implements OnInit {
 			this.question = this.questionsList[this.questionIndex];
 		} else {
 			this.quizCompleted = true;
-			console.log(this.responses);
-			this.coursesService.sendQuizAnswer(27, this.chapterContent.formation_id, this.chapterContent.id, this.responses);
+			this.coursesService.sendQuizAnswer(this.coopId, this.chapterContent.formation_id, this.chapterContent.id, this.responses);
 		}
 	}
 
@@ -91,5 +98,9 @@ export class FormationmodalPage implements OnInit {
 
 	isAchieved(chapter) {
 		return chapter.is_achieved === 'false' ? 'danger' : 'primary';
+	}
+
+	validateLesson() {
+		this.coursesService.lessonValidate(this.coopId, this.chapterContent.formation_id, this.chapterContent.id);
 	}
 }

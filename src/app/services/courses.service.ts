@@ -12,12 +12,27 @@ const followedFormationsUrl = 'https://solidaire.berwick.fr/api/formations/follo
 const formationDetailsUrl = 'https://solidaire.berwick.fr/api/formation';
 
 const quizAnswerUrl = 'https://solidaire.berwick.fr/api/chapters/answerQuizz';
+const lessonValidateUrl = 'https://solidaire.berwick.fr/api/chapters/validateLesson';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class CoursesService {
 	constructor(private storage: Storage, private http: HttpClient) {}
+
+	lessonValidate(cooperative_id: number, formation_id: number, chapter_id: number) {
+		return new Promise((resolve, reject) => {
+			this.http.post(lessonValidateUrl, { cooperative_id, formation_id, chapter_id }).subscribe(
+				(res) => {
+					resolve(res);
+				},
+				(err) => {
+					console.log(err);
+					reject(err);
+				}
+			);
+		});
+	}
 
 	sendQuizAnswer(cooperative_id: number, formation_id: number, chapter_id: number, responses) {
 		return new Promise((resolve, reject) => {

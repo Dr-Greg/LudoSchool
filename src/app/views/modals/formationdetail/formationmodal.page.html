@@ -5,7 +5,7 @@
 				<ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
 			</ion-button>
 		</ion-buttons>
-		<ion-title>Formation detail</ion-title>
+		<ion-title>Formation details</ion-title>
 	</ion-toolbar>
 	<style>
 		#header_image {
@@ -33,12 +33,6 @@
 		<p align="center" style="font-size: 12px;">
 			{{ chapterContent['content'] }}
 		</p>
-		<div *ngFor="let media of chapterContent['medias']; let i = index">
-			<br />
-			<video style="width:100%;height: 210px;" controls muted="false">
-				<source src="https://solidaire.berwick.fr/{{ chapterContent['medias'][i]['local_uri'] }}" type="video/mp4" />
-			</video>
-		</div>
 		<div *ngIf="chapterContent['type'] === 'quizz' && !quizCompleted && chapterContent['is_achieved'] === 'false'">
 			<ion-card>
 				<ion-card-header> {{ question.value }} </ion-card-header>
@@ -51,6 +45,18 @@
 			<ion-card>
 				<ion-card-header align="center"> Quiz validé </ion-card-header>
 			</ion-card>
+		</div>
+
+		<div *ngIf="chapterContent['type'] === 'lesson'">
+			<div *ngFor="let media of chapterContent['medias']; let i = index">
+				<br />
+				<video style="width:100%;height: 210px;" controls muted="false">
+					<source src="https://solidaire.berwick.fr/{{ chapterContent['medias'][i]['local_uri'] }}" type="video/mp4" />
+				</video>
+				<ion-button *ngIf="chapterContent['is_achieved'] === 'false'" expand="block" (click)="validateLesson()"
+					>Valider ce chapitre
+				</ion-button>
+			</div>
 		</div>
 	</div>
 </ion-content>
