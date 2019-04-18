@@ -13,7 +13,15 @@ export class FormationmodalPage implements OnInit {
 	courseLong;
 	wifiOn: boolean = false;
 
+	chapters = [];
 	chapterContent = {};
+
+	questionsList = [];
+	question;
+	questionIndex = 0;
+	quizCompleted = false;
+
+	responses = [];
 
 	constructor(private storage: Storage, private modalCtrl: ModalController, private coursesService: CoursesService) {}
 
@@ -26,8 +34,12 @@ export class FormationmodalPage implements OnInit {
 					.formationDetails(this.courseShort['id'])
 					.then((res) => {
 						if (res) {
-							console.log(res['data']);
+							console.table(res['data']);
 							this.courseLong = res['data'];
+							if (this.courseLong.chapters.length > 0) {
+								this.chapters = this.courseLong['chapters'];
+								this.chapterContent = this.chapters[0];
+							}
 						}
 					})
 					.catch(async (err) => {});
@@ -44,5 +56,40 @@ export class FormationmodalPage implements OnInit {
 
 	closeModal() {
 		this.modalCtrl.dismiss();
+	}
+
+	selectChapter(index: number) {
+		this.chapterContent = this.courseLong['chapters'][index];
+		this.questionIndex = 0;
+
+		if (this.chapterContent['type'] === 'quizz') {
+			this.questionsList = this.chapterContent['questions'];
+			this.question = this.questionsList[this.questionIndex];
+		}
+	}
+
+	addAnswer(answer) {
+		const response = { question_id: this.question.id, response_id: answer.id };
+		this.responses.push(response);
+		this.nextQuestion();
+	}
+
+	nextQuestion() {
+		if (this.questionIndex < this.questionsList.length - 1) {
+			this.questionIndex++;
+			this.question = this.questionsList[this.questionIndex];
+		} else {
+			this.quizCompleted = true;
+			console.log(this.responses);
+			this.coursesService.sendQuizAnswer(27, this.chapterContent.formation_id, this.chapterContent.id, this.responses);
+		}
+	}
+
+	hasNext() {
+		return this.questionIndex < this.questionsList.length ? 'Suivant' : 'Terminer';
+	}
+
+	isAchieved(chapter) {
+		return chapter.is_achieved === 'false' ? 'danger' : 'primary';
 	}
 }

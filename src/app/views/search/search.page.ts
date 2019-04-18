@@ -23,7 +23,6 @@ export class SearchPage implements OnInit {
 		this.storage.get('user_data').then((userData) => {
 			userData = JSON.parse(userData);
 			this.coopId = userData['coop_id'];
-			console.log(this.coopId);
 			this.storage.get('wifi_on_off').then((wifiOn) => {
 				this.wifiOn = wifiOn === 'on' ? true : false;
 
@@ -32,7 +31,6 @@ export class SearchPage implements OnInit {
 						.loadFormations(this.from, this.to, this.coopId)
 						.then((res) => {
 							if (res) {
-								console.log(res['data']);
 								this.formations = res['data'];
 							}
 						})
@@ -43,7 +41,6 @@ export class SearchPage implements OnInit {
 					this.storage.get('formations').then((formations) => {
 						if (formations) {
 							this.formations = JSON.parse(formations);
-							console.log(formations);
 						}
 					});
 				}

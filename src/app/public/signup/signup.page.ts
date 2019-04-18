@@ -13,7 +13,10 @@ export class SignupPage implements OnInit {
 	lastName = '';
 	email = '';
 	password = '';
+	coopId: number;
 	accept: boolean;
+
+	coopList = [];
 
 	constructor(
 		private storage: Storage,
@@ -22,7 +25,19 @@ export class SignupPage implements OnInit {
 		private toastController: ToastController
 	) {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.authService
+			.coopList()
+			.then((res) => {
+				if (!res['error'] && res['data']) {
+					this.coopList = res['data'];
+					console.log(this.coopList);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
 
 	async signUp() {
 		if (this.formValid()) {
@@ -31,7 +46,7 @@ export class SignupPage implements OnInit {
 			});
 			await loading.present();
 			this.authService
-				.signUp(this.email, this.firstName, this.lastName, this.password, this.email)
+				.signUp(this.email, this.firstName, this.lastName, this.password, this.email, this.coopId)
 				.then((res) => {
 					if (res) {
 						this.storage.clear().then(() => {
