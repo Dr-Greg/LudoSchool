@@ -1,3 +1,4 @@
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
@@ -13,18 +14,45 @@ const formationDetailsUrl = 'https://solidaire.berwick.fr/api/formation';
 
 const quizAnswerUrl = 'https://solidaire.berwick.fr/api/chapters/answerQuizz';
 const lessonValidateUrl = 'https://solidaire.berwick.fr/api/chapters/validateLesson';
+let submitUrl = 'https://solidaire.berwick.fr/api/submissions/submit';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class CoursesService {
-	constructor(private storage: Storage, private http: HttpClient) {}
+	constructor(private storage: Storage, private http: HttpClient, private transfer: FileTransfer) {}
+
+	uploadPhoto(cooperative_id: number, formation_id: number, chapter_id: number, medias) {
+		submitUrl += '?cooperative_id=' + cooperative_id + '&formation_id=' + formation_id + '&chapter_id=' + chapter_id;
+		const fileTransfer: FileTransferObject = this.transfer.create();
+		const options: FileUploadOptions = {
+			fileKey: 'medias[]',
+			fileName: medias,
+			chunkedMode: false,
+			mimeType: 'image/jpeg',
+			headers: { 'x-ov-token': localStorage.getItem('token') }
+		};
+
+		return new Promise((resolve, reject) => {
+			fileTransfer.upload(medias, submitUrl, options).then(
+				(data) => {
+					console.log('\n\nDATA UPLOAD : ' + data + '\n\n');
+					resolve(data);
+				},
+				(err) => {
+					console.log('\n\nDATA UPLOAD : ' + err + '\n\n');
+					reject(err);
+				}
+			);
+		});
+	}
 
 	lessonValidate(cooperative_id: number, formation_id: number, chapter_id: number) {
 		return new Promise((resolve, reject) => {
 			this.http.post(lessonValidateUrl, { cooperative_id, formation_id, chapter_id }).subscribe(
 				(res) => {
 					resolve(res);
+					console.log(res);
 				},
 				(err) => {
 					console.log(err);
@@ -90,7 +118,8 @@ export class CoursesService {
 		});
 	}
 
-	followFormations(formation_id: number, cooperative_id: number) {
+	followFormations(formation_id: number, cooperative_idd: number) {
+		const cooperative_id = localStorage.getItem('coopId');
 		return new Promise((resolve, reject) => {
 			this.http.post(followFormationUrl, { formation_id, cooperative_id }).subscribe(
 				(res) => {

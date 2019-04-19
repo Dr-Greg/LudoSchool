@@ -17,7 +17,7 @@
 
 <ion-content>
 	<div id="header_image">
-		<img style="width: 100%; height: 100%;" src="{{ courseShort.local_uri }}" />
+		<img style="width: 100%; height: 100%;" src="https://solidaire.berwick.fr/{{ courseShort.local_uri }}" />
 	</div>
 	<br />
 	<h1 align="center" class="course-miniature-content-title">{{ courseShort.name }}</h1>
@@ -41,9 +41,12 @@
 				</ion-card-content>
 			</ion-card>
 		</div>
-		<div *ngIf="chapterContent['type'] === 'quizz' && quizCompleted && chapterContent['is_achieved'] === 'false'">
+		<div *ngIf="chapterContent['type'] === 'quizz' && chapterContent['is_achieved'] === 'true'">
 			<ion-card>
 				<ion-card-header align="center"> Quiz validé </ion-card-header>
+			</ion-card>
+			<ion-card *ngIf="courseLong['hasCertificate'] === 'true'">
+				<ion-card-header align="center"> Certifié </ion-card-header>
 			</ion-card>
 		</div>
 
@@ -56,7 +59,20 @@
 				<ion-button *ngIf="chapterContent['is_achieved'] === 'false'" expand="block" (click)="validateLesson()"
 					>Valider ce chapitre
 				</ion-button>
+				<ion-card *ngIf="chapterContent['is_achieved'] === 'true'">
+					<ion-card-header align="center"> Chapitre validé </ion-card-header>
+				</ion-card>
+				<ion-card *ngIf="courseLong['hasCertificate'] === 'true'">
+					<ion-card-header align="center"> Certifié </ion-card-header>
+				</ion-card>
 			</div>
+		</div>
+
+		<div *ngIf="chapterContent['type'] === 'activity'">
+			<ion-button *ngIf="chapterContent['is_achieved'] === 'false'" (click)="takePicture()" expand="block">Prendre une photo </ion-button>
+			<ion-card *ngIf="courseLong['hasCertificate'] === 'true'">
+				<ion-card-header align="center"> Certifié </ion-card-header>
+			</ion-card>
 		</div>
 	</div>
 </ion-content>

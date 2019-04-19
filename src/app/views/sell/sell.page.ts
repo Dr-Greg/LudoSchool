@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { SellmodalPage } from 'src/app/views/modals/sellmodal/sellmodal.page';
 import { BuymodalPage } from '../modals/buymodal/buymodal.page';
+import { ToursService } from './../../services/tours.service';
 
 @Component({
 	selector: 'app-sell',
@@ -15,9 +16,16 @@ export class SellPage implements OnInit {
 		{ type: 'sell', name: 'Vente du 12/03/19' }
 	];
 
-	constructor(private modalCtrl: ModalController) {}
+	tours = [];
 
-	ngOnInit() {}
+	constructor(private modalCtrl: ModalController, private toursService: ToursService) {}
+
+	ngOnInit() {
+		this.toursService.getToursList().then((res) => {
+			this.tours = res['data'];
+			console.log(this.tours);
+		});
+	}
 
 	async openSellModal() {
 		const modal = await this.modalCtrl.create({

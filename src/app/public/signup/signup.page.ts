@@ -31,7 +31,12 @@ export class SignupPage implements OnInit {
 			.then((res) => {
 				if (!res['error'] && res['data']) {
 					this.coopList = res['data'];
-					console.log(this.coopList);
+					this.storage.set('coop_list', res['data']).then(() => {
+						localStorage.setItem('coop_list', res['data']);
+						this.storage.set('coop_list', JSON.stringify(res['data'])).then(() => {
+							console.log(this.storage.get('coop_list'));
+						});
+					});
 				}
 			})
 			.catch((err) => {

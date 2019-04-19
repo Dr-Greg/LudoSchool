@@ -2,6 +2,7 @@ import { CoursesService } from './../../../services/courses.service';
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @Component({
 	selector: 'app-formationmodal',
@@ -27,7 +28,12 @@ export class FormationmodalPage implements OnInit {
 
 	responses = [];
 
-	constructor(private storage: Storage, private modalCtrl: ModalController, private coursesService: CoursesService) {}
+	constructor(
+		private storage: Storage,
+		private modalCtrl: ModalController,
+		private coursesService: CoursesService,
+		private imagePicker: ImagePicker
+	) {}
 
 	ngOnInit() {
 		this.storage.get('user_data').then((userData) => {
@@ -43,6 +49,7 @@ export class FormationmodalPage implements OnInit {
 							if (res) {
 								console.table(res['data']);
 								this.courseLong = res['data'];
+								console.log(this.courseLong);
 								if (this.courseLong.chapters.length > 0) {
 									this.chapters = this.courseLong['chapters'];
 									this.chapterContent = this.chapters[0];
@@ -102,5 +109,22 @@ export class FormationmodalPage implements OnInit {
 
 	validateLesson() {
 		this.coursesService.lessonValidate(this.coopId, this.chapterContent.formation_id, this.chapterContent.id);
+	}
+
+	takePicture() {
+		const options = {
+			maximumImagesCount: 1,
+			width: 500,
+			height: 500,
+			quality: 75
+		};
+		this.imagePicker.getPictures(options).then(
+			(results) => {
+				this.coursesService.uploadPhoto(this.coopId, this.chapterContent.formation_id, this.chapterContent.id, results[0]);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
 	}
 }

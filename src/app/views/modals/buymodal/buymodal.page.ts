@@ -76,7 +76,7 @@ export class BuymodalPage implements OnInit {
 
 	increment(index: number) {
 		const itemToAdd = this.items[index];
-		let added: boolean = false;
+		let added = false;
 
 		this.cart.forEach((item) => {
 			if (item.id === itemToAdd.id) {
@@ -106,7 +106,6 @@ export class BuymodalPage implements OnInit {
 	}
 
 	checkout() {
-		if (this.cart.length > 0) {
-		}
+		this.closeModal();
 	}
 }

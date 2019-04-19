@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 export class SigninPage implements OnInit {
 	email = '';
 	password = '';
+	coopList = [];
 
 	constructor(
 		private authService: AuthenticationService,
@@ -19,7 +20,26 @@ export class SigninPage implements OnInit {
 		private toastController: ToastController
 	) {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.authService
+			.coopList()
+			.then((res) => {
+				if (!res['error'] && res['data']) {
+					this.coopList = res['data'];
+					console.log(this.coopList);
+
+					this.storage.set('coop_list', res['data']).then(() => {
+						localStorage.setItem('coop_list', res['data']);
+						this.storage.set('coop_list', JSON.stringify(res['data'])).then(() => {
+							console.log(this.storage.get('coop_list'));
+						});
+					});
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
 
 	async signIn() {
 		if (this.formValid()) {
@@ -35,6 +55,7 @@ export class SigninPage implements OnInit {
 						res['data']['coop_id'] = 27;
 						this.storage.set('token', res['data']['token']).then(() => {
 							localStorage.setItem('token', res['data']['token']);
+							localStorage.setItem('coopId', (27).toString());
 							this.storage.set('user_data', JSON.stringify(res['data'])).then(() => {
 								this.authService.checkToken();
 							});

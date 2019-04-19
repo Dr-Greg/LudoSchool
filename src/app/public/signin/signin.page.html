@@ -19,6 +19,15 @@
 				<ion-label position="floating" placeholder="Mot de passe">Entrez votre mot de passe</ion-label>
 				<ion-input [(ngModel)]="password" type="password"></ion-input>
 			</ion-item>
+
+			<ion-list>
+				<ion-item>
+					<ion-label>Cooperative</ion-label>
+					<ion-select placeholder="Choisir" required [(ngModel)]="coopId">
+						<ion-select-option *ngFor="let coop of coopList" [value]="coop['id']">{{ coop['name'] }}</ion-select-option>
+					</ion-select>
+				</ion-item>
+			</ion-list>
 		</ion-card-header>
 	</ion-card>
 

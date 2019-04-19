@@ -1,3 +1,4 @@
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -16,6 +17,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormationmodalPage } from './views/modals/formationdetail/formationmodal.page';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @NgModule({
 	declarations: [AppComponent, SellmodalPage, BuymodalPage, FormationmodalPage],
@@ -24,7 +26,9 @@ import { FormationmodalPage } from './views/modals/formationdetail/formationmoda
 	providers: [
 		StatusBar,
 		SplashScreen,
+		FileTransfer,
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+		ImagePicker,
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: AuthInterceptorService,

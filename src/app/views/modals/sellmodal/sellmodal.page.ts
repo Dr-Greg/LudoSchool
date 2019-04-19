@@ -23,7 +23,7 @@ export class SellmodalPage implements OnInit {
 				this.wifiOn = wifiOn === 'on' ? true : false;
 				if (wifiOn === 'on') {
 					this.toursService
-						.toursList(this.coopId)
+						.getToursList()
 						.then((res) => {
 							if (res) {
 								console.log(res['data']);

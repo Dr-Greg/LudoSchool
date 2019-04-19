@@ -29,7 +29,7 @@
 		<div class="course-miniature-container" *ngFor="let formation of formations; let i = index">
 			<button class="course-miniature-button" (click)="followFormation(i)">
 				<div class="course-miniature-image-container">
-					<img style="border-radius: 5px" src="{{ formation.local_uri }}" />
+					<img style="border-radius: 5px" src="https://solidaire.berwick.fr/{{ formation.local_uri }}" />
 				</div>
 				<div class="course-miniature-content-container">
 					<h1 class="course-miniature-content-title">{{ formation.name }}</h1>

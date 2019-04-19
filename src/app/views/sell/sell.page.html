@@ -12,6 +12,22 @@
 
 	<ion-card id="welcome-container-card">
 		<ion-card-header>
+			<h1>Liste des tournées</h1>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-list *ngIf="actions.length > 0">
+				<ion-item-sliding *ngFor="let tour of tours; let i">
+					<ion-item>
+						<ion-label> {{ tour.name }} </ion-label>
+					</ion-item>
+				</ion-item-sliding>
+			</ion-list>
+			<p *ngIf="actions.length <= 0">Aucune action pour le moment.</p>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-card id="welcome-container-card">
+		<ion-card-header>
 			<h1>Vos actions</h1>
 		</ion-card-header>
 		<ion-card-content>
