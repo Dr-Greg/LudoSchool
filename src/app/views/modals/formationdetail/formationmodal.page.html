@@ -45,9 +45,6 @@
 			<ion-card>
 				<ion-card-header align="center"> Quiz validé </ion-card-header>
 			</ion-card>
-			<ion-card *ngIf="courseLong['hasCertificate'] === 'true'">
-				<ion-card-header align="center"> Certifié </ion-card-header>
-			</ion-card>
 		</div>
 
 		<div *ngIf="chapterContent['type'] === 'lesson'">
@@ -62,17 +59,14 @@
 				<ion-card *ngIf="chapterContent['is_achieved'] === 'true'">
 					<ion-card-header align="center"> Chapitre validé </ion-card-header>
 				</ion-card>
-				<ion-card *ngIf="courseLong['hasCertificate'] === 'true'">
-					<ion-card-header align="center"> Certifié </ion-card-header>
-				</ion-card>
 			</div>
 		</div>
 
 		<div *ngIf="chapterContent['type'] === 'activity'">
 			<ion-button *ngIf="chapterContent['is_achieved'] === 'false'" (click)="takePicture()" expand="block">Prendre une photo </ion-button>
-			<ion-card *ngIf="courseLong['hasCertificate'] === 'true'">
-				<ion-card-header align="center"> Certifié </ion-card-header>
-			</ion-card>
 		</div>
+		<ion-card *ngIf="courseLong !== null && courseLong !== undefined && courseLong['hasCertificate'] === true">
+			<ion-card-header align="center"> Certifié </ion-card-header>
+		</ion-card>
 	</div>
 </ion-content>
