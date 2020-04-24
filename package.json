@@ -1,7 +1,7 @@
 {
 	"name": "LudoSchool",
 	"version": "0.1.0",
-	"author": "Meansoft",
+	"author": "Dr-Greg",
 	"homepage": "https://meansoft.io/",
 	"scripts": {
 		"ng": "ng",
